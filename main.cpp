@@ -26,17 +26,16 @@ int main(int argc, const char * argv[]) {
     cout << "node 1:" <<  node1.toString() << endl;
     cout << "node 2:" << node2.toString() << endl;
 
-  /*  // Path: simple test
+    // Path: simple test
     Path path1;
     path1.addPoint(0, 1);
     path1.addPoint(1, 3);
     cout << path1.toString() << endl;
-
     // Character: simple test
     Character chWatson("Watson");
     cout << chWatson.toString() << endl;
     chWatson.moveToPoint(2, 7);
     cout << chWatson.toString() << endl;
-*/
+
     return 0;
 }
