@@ -1,13 +1,13 @@
 /*
-* Ho Chi Minh City University of Technology
-* Faculty of Computer Science and Engineering
-* Initial code for Assignment 1
-* Programming Fundamentals Spring 2022
-* Author: Vu Van Tien
-* Date: 15.02.2022
-*/
+ * Ho Chi Minh City University of Technology
+ * Faculty of Computer Science and Engineering
+ * Initial code for Assignment 1
+ * Programming Fundamentals Spring 2022
+ * Author: Vu Van Tien
+ * Date: 15.02.2022
+ */
 
-//The library here is concretely set, students are not allowed to include any other libraries.
+// The library here is concretely set, students are not allowed to include any other libraries.
 #ifndef studyInPink_h
 #define studyInPink_h
 
@@ -21,78 +21,121 @@
 using namespace std;
 
 ////////////////////////////////////////////////////////////////////////
-///STUDENT'S ANSWER BEGINS HERE
-///Complete the following functions
-///DO NOT modify any parameters in the functions.
+/// STUDENT'S ANSWER BEGINS HERE
+/// Complete the following functions
+/// DO NOT modify any parameters in the functions.
 ////////////////////////////////////////////////////////////////////////
 
-class Point {
+class Point
+{
 private:
     int x;
     int y;
-public:
-    Point(int x=0, int y=0);
-    string toString() const;
 
-    int distanceTo(const Point & otherPoint) const;
+public:
+    Point(int x = 0, int y = 0)
+    {
+        this->x = x;
+        this->y = y;
+    };
+    string toString() const
+    {
+        stringstream ss;
+        ss << "<Point[" << x << "," << y << "]>";
+        return ss.str();
+    };
+
+    int distanceTo(const Point &otherPoint) const
+    {
+        float dist;
+        dist = sqrt(pow(this->x - otherPoint.x, 2) + pow(this->y - otherPoint.y, 2));
+        return ceil(dist);
+    };
 };
 
-class Node {
+class Node
+{
 private:
     Point point;
-    Node * next;
+    Node *next;
 
     friend class Path;
 
 public:
-    Node(const Point & point=Point(), Node * next=NULL);
-    string toString() const;
+    Node(const Point &point = Point(), Node *next = NULL)
+    {
+        this->point = point;
+        this->next = next;
+    };
+    string toString() const
+    {
+        stringstream ss;
+        ss << "<Node[" << this->point.toString() << "]>";
+        return ss.str();
+    };
 };
 
-class Path {
+class Path
+{
 private:
-    Node * head;
-    Node * tail;
+    Node *head;
+    Node *tail;
     int count;
     int length;
 
 public:
-    Path();
-    ~Path();
+    Path()
+    {
+        this->head = NULL;
+        this->tail = NULL;
+        this->count = 0;
+        this->length = -1;
+    };
+    ~Path()
+    {
+        Node *curr;
+        curr = this->head;
+        do
+        {
+            delete curr;
+            curr = curr->next;
+        } while (curr != NULL);
+    };
 
     void addPoint(int x, int y);
     string toString() const;
     Point getLastPoint() const;
 };
 
-class Character {
+class Character
+{
 private:
     string name;
-    Path * path;
+    Path *path;
 
 public:
-    Character(const string & name="");
+    Character(const string &name = "");
     ~Character();
 
     string getName() const;
-    void setName(const string & name);
+    void setName(const string &name);
 
     void moveToPoint(int x, int y);
     string toString() const;
 };
 
 bool rescueSherlock(
-        const Character & chMurderer,
-        const Character & chWatson,
-        int maxLength,
-        int maxDistance,
-        int & outDistance
-        ) {
+    const Character &chMurderer,
+    const Character &chWatson,
+    int maxLength,
+    int maxDistance,
+    int &outDistance)
+{
 
     return true;
 }
 
 ////////////////////////////////////////////////
-///END OF STUDENT'S ANSWER
+/// END OF STUDENT'S ANSWER
 ////////////////////////////////////////////////
 #endif /* studyInPink_h */
