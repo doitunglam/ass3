@@ -47,9 +47,9 @@ public:
 
     int distanceTo(const Point &otherPoint) const
     {
-        float dist;
-        dist = sqrt(pow(this->x - otherPoint.x, 2) + pow(this->y - otherPoint.y, 2));
-        return ceil(dist);
+        int dist;
+        dist = ceil(sqrt(pow(this->x - otherPoint.x, 2) + pow(this->y - otherPoint.y, 2)));
+        return dist;
     };
 };
 
@@ -91,15 +91,20 @@ public:
         this->count = 0;
         this->length = -1;
     };
+    int getLength()
+    {
+        return this->length;
+    };
     ~Path()
     {
-        Node *curr;
-        curr = this->head;
-        do
+        Node *current = this->head;
+        while (current != NULL)
         {
-            delete curr;
-            curr = curr->next;
-        } while (curr != NULL);
+            Node *next = current->next;
+            delete current;
+            current = next;
+        }
+        this->head = NULL;
     };
 
     void addPoint(int x, int y)
@@ -166,7 +171,16 @@ public:
             if (clue[i] == ']')
                 flag = 0;
         }
-        Point *newPoint = new Point(stoi(strX), stoi(strY));
+        int X, Y;
+        if (strX == "")
+            X = 0;
+        else
+            X = stoi(strX);
+        if (strY == "")
+            Y = 0;
+        else
+            Y = stoi(strY);
+        Point *newPoint = new Point(X, Y);
         return *newPoint;
     };
 };
@@ -184,7 +198,8 @@ public:
         Path *newPath = new Path();
         this->path = newPath;
     };
-    ~Character(){
+    ~Character()
+    {
         delete this->path;
     };
     string getName() const
@@ -193,17 +208,20 @@ public:
     };
     void setName(const string &name)
     {
-        this->name=name;
+        this->name = name;
     };
-
+    Path *getPath() const
+    {
+        return this->path;
+    };
     void moveToPoint(int x, int y)
     {
-        this->path->addPoint(x,y);
+        this->path->addPoint(x, y);
     };
     string toString() const
     {
         stringstream ss;
-        ss<<"<Character[name:"<<this->name<<",path:"<<this->path->toString()<<"]>";
+        ss << "<Character[name:" << this->name << ",path:" << this->path->toString() << "]>";
         return ss.str();
     };
 };
@@ -215,25 +233,21 @@ bool rescueSherlock(
     int maxDistance,
     int &outDistance)
 {
-    string strL1="";
-    string clue1=chMurderer.toString();
-    for(int i=clue1.find("length")+2;i++;)
-    if(clue1[i]-'0'>=0&&clue1[i]-'0'<=9)
-    strL1=strL1+clue1[i];
-    else break;
-     string strL2="";
-    string clue2=chWatson.toString();
-    for(int i=clue2.find("length")+2;i++;)
-    if(clue2[i]-'0'>=0&&clue2[i]-'0'<=9)
-    strL2=strL2+clue2[i];
-    else break;
-    outDistance=abs(stoi(strL1)-stoi(strL2));
-    if(outDistance>maxLength)
+    if (chWatson.getPath()->getLength()-chMurderer.getPath()->getLength() <= maxLength)
     {
-        outDistance=-1;
+        outDistance = (int)(chMurderer.getPath()->getLastPoint().distanceTo(chWatson.getPath()->getLastPoint()));
+        if (outDistance <= maxDistance)
+            return true;
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        outDistance = -1;
         return false;
     }
-    return true;
 }
 
 ////////////////////////////////////////////////

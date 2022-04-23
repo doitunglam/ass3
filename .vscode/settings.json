@@ -1,6 +1,11 @@
 {
     "files.associations": {
         "ostream": "cpp",
-        "iostream": "cpp"
+        "iostream": "cpp",
+        "xutility": "cpp",
+        "string": "cpp",
+        "compare": "cpp",
+        "fstream": "cpp",
+        "xstring": "cpp"
     }
 }
